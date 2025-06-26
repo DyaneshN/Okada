@@ -7,3 +7,4 @@ pymongo
 gunicorn
 motor
 pandas
+pydantic[email]

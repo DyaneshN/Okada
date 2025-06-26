@@ -35,6 +35,7 @@ async def update_property(id: str, property: Property):
         update_data = property.dict()
 
         # Convert unsafe types to MongoDB-safe types
+        update_data["id"] = int(update_data["id"])
         update_data["rent"] = float(update_data["rent"])
         update_data["annual_rent"] = float(update_data["annual_rent"])
         update_data["status"] = update_data["status"].value
