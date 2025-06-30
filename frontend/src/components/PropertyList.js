@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { getProperties, deleteProperty } from "../api/api";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import { tableheadcell } from "../customcss/PropertyListCSS";
 
-function PropertyList({ onEdit, onAdd }) {
+function PropertyList({ onEdit }) {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -37,51 +47,77 @@ function PropertyList({ onEdit, onAdd }) {
 
   return (
     <div>
-      <h2>Property Listings</h2>
-      <button onClick={onAdd}>Add New Property</button>
-      <table border="1" cellPadding="8" style={{ width: "100%", marginTop: 10 }}>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Address</th>
-      <th>Floor</th>
-      <th>Suite</th>
-      <th>Size</th>
-      <th>Rent</th>
-      <th>Broker Name</th>
-      <th>Broker Email</th>
-      <th>Broker Phone</th>
-      <th>Annual Rent</th>
-      <th>Status</th>
-      <th>Landlord Name</th>
-      <th>Landlord Email</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {properties.map((prop) => (
-      <tr key={prop._id}>
-        <td>{prop.id}</td>
-        <td>{prop.address}</td>
-        <td>{prop.floor}</td>
-        <td>{prop.suite}</td>
-        <td>{prop.size}</td>
-        <td>{prop.rent}</td>
-        <td>{prop.broker_name}</td>
-        <td>{prop.broker_email}</td>
-        <td>{prop.broker_phone}</td>
-        <td>{prop.annual_rent}</td>
-        <td>{prop.status}</td>
-        <td>{prop.landlord_name}</td>
-        <td>{prop.landlord_email}</td>
-        <td>
-          <button onClick={() => onEdit(prop)}>Edit</button>
-          <button onClick={() => handleDelete(prop._id)}>Delete</button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+      <TableContainer
+        component={Paper}
+        elevation={2}
+        sx={{ borderRadius: 2, mb: 4 }}
+      >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableCell sx={tableheadcell}>ID</TableCell>
+              <TableCell sx={tableheadcell}>Address</TableCell>
+              <TableCell sx={tableheadcell}>Floor</TableCell>
+              <TableCell sx={tableheadcell}>Suite</TableCell>
+              <TableCell sx={tableheadcell}>Size</TableCell>
+              <TableCell sx={tableheadcell}>Rent</TableCell>
+              <TableCell sx={tableheadcell}>Broker Name</TableCell>
+              <TableCell sx={tableheadcell}>Broker Email</TableCell>
+              <TableCell sx={tableheadcell}>Broker Phone</TableCell>
+              <TableCell sx={tableheadcell}>Annual Rent</TableCell>
+              <TableCell sx={tableheadcell}>Status</TableCell>
+              <TableCell sx={tableheadcell}>Landlord Name</TableCell>
+              <TableCell sx={tableheadcell}>Landlord Email</TableCell>
+              <TableCell sx={tableheadcell}>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {properties.map((row, index) => (
+              <TableRow
+                key={row._id}
+                sx={{
+                  backgroundColor: index % 2 === 0 ? "#fafafa" : "#fff",
+                  "&:hover": {
+                    backgroundColor: "#f0f0f0",
+                  },
+                }}
+              >
+                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.address}</TableCell>
+                <TableCell>{row.floor}</TableCell>
+                <TableCell>{row.suite}</TableCell>
+                <TableCell>{row.size}</TableCell>
+                <TableCell>{row.rent}</TableCell>
+                <TableCell>{row.broker_name}</TableCell>
+                <TableCell>{row.broker_email}</TableCell>
+                <TableCell>{row.broker_phone}</TableCell>
+                <TableCell>{row.annual_rent}</TableCell>
+                <TableCell>{row.status}</TableCell>
+                <TableCell>{row.landlord_name}</TableCell>
+                <TableCell>{row.landlord_email}</TableCell>
+                <TableCell>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => onEdit(row)}
+                    >
+                      EDIT
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => handleDelete(row._id)}
+                    >
+                      DELETE
+                    </Button>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }
